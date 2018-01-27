@@ -5,10 +5,8 @@
  */
 package com.gnoxy.kynexus;
 
-import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
