@@ -37,7 +37,6 @@ public class KServer {
         }
         catch (UnknownHostException e) {
             System.out.println("Caught exception:");
-            e.printStackTrace();
         }
         JsonArray array = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
