@@ -2,8 +2,8 @@
 pipeline {
     agent any
     tools {
-            maven 'maven-3.3.9'
-            jdk 'jdk1.8.0_144'
+            maven 'maven 3'
+            jdk 'java 8'
     }
     environment {
         DockerHub_Access = credentials('gnoxy-docker-hub')
