@@ -4,6 +4,7 @@ pipeline {
     tools {
             maven 'maven 3'
             jdk 'java 8'
+            docker 'docker'
     }
     environment {
         DockerHub_Access = credentials('gnoxy-docker-hub')
