@@ -1,0 +1,36 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "kynexus",
+    "annotations": {
+      "description": "This template is for the kynexus app",
+      "tags": "rest,java"
+    }
+  },
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "kynexus",
+   			"com.gnoxy.label": "route_value",
+	    	"com.gnoxy.common-label": "common-label-value"
+      },
+      "spec": {
+        "dockerImageRepository": "${NAMESPACE}/kynexus"
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "value": "docker-registry.default.svc:5000/kynexus"
+    }
+  ],
+  "labels": {
+    "template": "application-template-kynexus"
+  }
+}        

@@ -1,0 +1,39 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "kynexus",
+    "annotations": {
+      "description": "This template is for the kynexus app",
+      "tags": "rest,java"
+    }
+  },
+  "objects": [
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "k-route",
+        "labels": {
+    			"app": "kynexus",
+    			"com.gnoxy.label": "route_value",
+		    	"com.gnoxy.common-label": "common-label-value"
+		    }
+      },
+      "spec": {
+        "host": "origin-master",
+        "path": "/kynexus",
+        "to": {
+          "kind": "Service",
+          "name": "kynexus"
+        },
+        "port": {
+          "targetPort": "8080-tcp"
+        }
+      }
+    }
+  ],
+  "labels": {
+    "template": "application-template-kynexus"
+  }
+}
