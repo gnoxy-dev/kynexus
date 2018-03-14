@@ -101,7 +101,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "kynexus:latest",
+                "name": "kynexus:dev",
                 "namespace": "kynexus"
               }
             }
