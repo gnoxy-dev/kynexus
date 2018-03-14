@@ -18,8 +18,8 @@ pipeline {
         stage ('Deploy') {
             steps {
                 sh 'docker login -u="$DockerHub_Access_USR" -p="$DockerHub_Access_PSW"'
-                sh 'docker tag gnoxy/kynexus gnoxy/kynexus:1.3.02'
-                sh 'docker push gnoxy/kynexus:1.3.02'
+                sh 'docker tag gnoxy/kynexus gnoxy/kynexus:1.3.03'
+                sh 'docker push gnoxy/kynexus:1.3.03'
             }
         }
     }

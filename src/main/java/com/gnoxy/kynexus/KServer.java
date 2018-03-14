@@ -41,7 +41,7 @@ public class KServer {
         JsonArray array = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
                     .add("hostname", hostname)
-                    .add("version", "1.3.02"))
+                    .add("version", "1.3.03"))
                 .build();
 
         return array; 
