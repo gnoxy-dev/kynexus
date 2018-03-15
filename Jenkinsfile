@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         DockerHub_Access = credentials('gnoxy-docker-hub')
-        Version = $POM_VERSION
+        Version = readMavenPom().getVersion()
     }
     stages {
         stage('build') {
