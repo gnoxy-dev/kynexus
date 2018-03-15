@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
         DockerHub_Access = credentials('gnoxy-docker-hub')
-        Version = readMavenPom().getVersion()
+
     }
     stages {
         stage('build') {
@@ -19,8 +19,8 @@ pipeline {
         stage ('Deploy') {
             steps {
                 sh 'docker login -u="$DockerHub_Access_USR" -p="$DockerHub_Access_PSW"'
-                sh 'docker tag gnoxy/kynexus gnoxy/kynexus:"$Version"'
-                sh 'docker push gnoxy/kynexus:"$Version"'
+                sh 'docker tag gnoxy/kynexus gnoxy/kynexus:"$POM_VERSION"'
+                sh 'docker push gnoxy/kynexus:"$POM_VERSION"'
             }
         }
     }
