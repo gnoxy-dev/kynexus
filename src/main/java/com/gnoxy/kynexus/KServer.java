@@ -29,6 +29,7 @@ public class KServer {
     @GET
     @Produces("application/json")
     public List<JsonValue> getHostInfoJSONList(){
+        KEnv kenv = KEnv.getInstance();
         InetAddress ip;
         String hostname = "Unknown";
         try {
@@ -41,7 +42,7 @@ public class KServer {
         JsonArray array = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
                     .add("hostname", hostname)
-                    .add("version", "1.3.04"))
+                    .add("version", kenv.getVersion()))
                 .build();
 
         return array; 
