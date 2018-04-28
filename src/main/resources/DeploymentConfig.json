@@ -14,8 +14,11 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "kynexus",
-     		"com.gnoxy.label": "dc_value",
-		    "com.gnoxy.common-label": "common-label-value"
+        "labels": {
+    			"app": "kynexus",
+    			"com.gnoxy.label": "dc_value",
+		    	"com.gnoxy.common-label": "common-label-value"
+        }
      },
       "spec": {
         "strategy": {

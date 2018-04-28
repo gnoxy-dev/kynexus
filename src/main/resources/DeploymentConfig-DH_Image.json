@@ -10,71 +10,6 @@
   },
   "objects": [
     {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "kynexus",
-   			"com.gnoxy.label": "route_value",
-	    	"com.gnoxy.common-label": "common-label-value"
-      },
-      "spec": {
-        "dockerImageRepository": "${NAMESPACE}/kynexus"
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "kynexus",
-        "labels": {
-    			"app": "kynexus",
-    			"com.gnoxy.label": "service_value",
-		    	"com.gnoxy.common-label": "common-label-value"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "8080-tcp",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "deploymentconfig": "kynexus"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      },
-      "status": {
-        "loadBalancer": {}
-      }
-    },
-    {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "k-route",
-        "labels": {
-    			"app": "kynexus",
-    			"com.gnoxy.label": "route_value",
-		    	"com.gnoxy.common-label": "common-label-value"
-		    }
-      },
-      "spec": {
-        "host": "origin-master",
-        "path": "/kynexus",
-        "to": {
-          "kind": "Service",
-          "name": "kynexus"
-        },
-        "port": {
-          "targetPort": "8080-tcp"
-        }
-      }
-    },
-    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -96,20 +31,6 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "kynexus"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "kynexus:dev",
-                "namespace": "kynexus"
-              }
-            }
-          },
-          {
             "type": "ConfigChange"
           }
         ],
@@ -129,7 +50,7 @@
             "containers": [
               {
                 "name": "kynexus",
-                "image": "gnoxy/kynexus:latest",
+                "image": "gnoxy/kynexus:1.3.05",
                 "ports": [
                   {
                     "containerPort": 8080,
@@ -162,14 +83,8 @@
       "displayName": "Memory Limit",
       "description": "Maximum amount of memory the container can use.",
       "value": "512Mi"
-    },
-    {
-      "name": "NAMESPACE",
-      "displayName": "Namespace",
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "value": "docker-registry.default.svc:5000/kynexus"
     }
- ],
+  ],
   "labels": {
     "template": "application-template-kynexus"
   }
