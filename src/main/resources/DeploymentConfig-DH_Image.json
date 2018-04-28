@@ -13,9 +13,10 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "kynexus",
+        "name": "${ApplicationName}-${ApplicationVersion}",
         "labels": {
-    			"app": "kynexus",
+    			"app": "${ApplicationName}",
+    			"version": "${ApplicationVersion}",
     			"com.gnoxy.label": "dc_value",
 		    	"com.gnoxy.common-label": "common-label-value"
         }
@@ -36,21 +37,21 @@
         ],
         "replicas": 1,
         "selector": {
-          "name":"kynexus",
-          "deploymentconfig": "kynexus"
+          "name":"${ApplicationName}-${ApplicationVersion}",
+          "deploymentconfig": "${ApplicationName}-${ApplicationVersion}"
         },
         "template": {
           "metadata": {
             "labels": {
-              "name": "kynexus",
-              "deploymentconfig": "kynexus"
+              "name": "${ApplicationName}-${ApplicationVersion}",
+              "deploymentconfig": "${ApplicationName}-${ApplicationVersion}"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "kynexus",
-                "image": "gnoxy/kynexus:1.3.05",
+                "name": "${ApplicationName}-${ApplicationVersion}",
+                "image": "gnoxy/kynexus:${ApplicationVersion}",
                 "ports": [
                   {
                     "containerPort": 8080,
@@ -83,6 +84,18 @@
       "displayName": "Memory Limit",
       "description": "Maximum amount of memory the container can use.",
       "value": "512Mi"
+    },
+    {
+      "name": "ApplicationName",
+      "displayName": "Application Name",
+      "description": "The name of the application.",
+      "value": "kynexus"
+    },
+    {
+      "name": "ApplicationVersion",
+      "displayName": "Application Version",
+      "description": "The version of the application.",
+      "value": "1.3.07"
     }
   ],
   "labels": {
