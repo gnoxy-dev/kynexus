@@ -2,85 +2,21 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "kynexus",
+    "name": "kynexus-template",
     "annotations": {
-      "description": "This template is for the kynexus app",
+      "description": "This is the template for the kynexus app",
       "tags": "rest,java"
     }
   },
   "objects": [
     {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "kynexus",
-   			"com.gnoxy.label": "route_value",
-	    	"com.gnoxy.common-label": "common-label-value"
-      },
-      "spec": {
-        "dockerImageRepository": "${NAMESPACE}/kynexus"
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "kynexus",
-        "labels": {
-    			"app": "kynexus",
-    			"com.gnoxy.label": "service_value",
-		    	"com.gnoxy.common-label": "common-label-value"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "8080-tcp",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "deploymentconfig": "kynexus"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      },
-      "status": {
-        "loadBalancer": {}
-      }
-    },
-    {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "k-route",
-        "labels": {
-    			"app": "kynexus",
-    			"com.gnoxy.label": "route_value",
-		    	"com.gnoxy.common-label": "common-label-value"
-		    }
-      },
-      "spec": {
-        "host": "origin-master",
-        "path": "/kynexus",
-        "to": {
-          "kind": "Service",
-          "name": "kynexus"
-        },
-        "port": {
-          "targetPort": "8080-tcp"
-        }
-      }
-    },
-    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "kynexus",
+        "name": "${ApplicationName}-deployment-${ApplicationTag}",
         "labels": {
-    			"app": "kynexus",
+    			"app": "${ApplicationName}",
+    			"version": "${ApplicationVersion}",
     			"com.gnoxy.label": "dc_value",
 		    	"com.gnoxy.common-label": "common-label-value"
         }
@@ -96,40 +32,26 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "kynexus"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "kynexus:dev",
-                "namespace": "kynexus"
-              }
-            }
-          },
-          {
             "type": "ConfigChange"
           }
         ],
         "replicas": 1,
         "selector": {
-          "name":"kynexus",
-          "deploymentconfig": "kynexus"
+          "name":"${ApplicationName}-selector-${ApplicationTag}",
+          "deploymentconfig": "${ApplicationName}-dc-selector"
         },
         "template": {
           "metadata": {
             "labels": {
-              "name": "kynexus",
-              "deploymentconfig": "kynexus"
+              "name": "${ApplicationName}-selector-${ApplicationTag}",
+              "deploymentconfig": "${ApplicationName}-dc-selector"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "kynexus",
-                "image": "gnoxy/kynexus:latest",
+                "name": "${ApplicationName}-container",
+                "image": "gnoxy/kynexus:${ApplicationVersion}",
                 "ports": [
                   {
                     "containerPort": 8080,
@@ -154,6 +76,59 @@
           }
         }
       }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ApplicationName}-service-${ApplicationTag}",
+        "labels": {
+    			"app": "${ApplicationName}",
+    			"com.gnoxy.label": "service_value",
+		    	"com.gnoxy.common-label": "common-label-value"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "8080-tcp",
+            "protocol": "TCP",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "deploymentconfig": "${ApplicationName}-deployment-${ApplicationTag}"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${ApplicationName}-route-${ApplicationTag}",
+        "labels": {
+    			"app": "kynexus",
+    			"com.gnoxy.label": "route_value",
+		    	"com.gnoxy.common-label": "common-label-value"
+		    }
+      },
+      "spec": {
+        "host": "kserv-${ApplicationTag}.192.168.1.93.xip.io",
+        "path": "/kynexus",
+        "to": {
+          "kind": "Service",
+          "name": "${ApplicationName}-service-${ApplicationTag}"
+        },
+        "port": {
+          "targetPort": "8080-tcp"
+        }
+      }
     }
   ],
   "parameters": [
@@ -164,12 +139,24 @@
       "value": "512Mi"
     },
     {
-      "name": "NAMESPACE",
-      "displayName": "Namespace",
-      "description": "The OpenShift Namespace where the ImageStream resides.",
-      "value": "docker-registry.default.svc:5000/kynexus"
+      "name": "ApplicationName",
+      "displayName": "Application Name",
+      "description": "The name of the application.",
+      "value": "kynexus"
+    },
+    {
+      "name": "ApplicationTag",
+      "displayName": "Application Tag",
+      "description": "An OpenShift-friendly Application Version.",
+      "value": "1-3-08"
+    },
+    {
+      "name": "ApplicationVersion",
+      "displayName": "Application Version",
+      "description": "The version of the application.",
+      "value": "1.3.08"
     }
- ],
+  ],
   "labels": {
     "template": "application-template-kynexus"
   }
