@@ -119,7 +119,7 @@
 		    }
       },
       "spec": {
-        "host": "kserv-${ApplicationTag}.192.168.1.93.xip.io",
+        "host": "${RouteHostName}",
         "path": "/kynexus",
         "to": {
           "kind": "Service",
@@ -155,6 +155,12 @@
       "displayName": "Application Version",
       "description": "The version of the application.",
       "value": "1.3.08"
+    },
+    {
+      "name": "RouteHostName",
+      "displayName": "Route Host Name",
+      "description": "The Host Name published by the Route.",
+      "value": "kserv-${ApplicationTag}.192.168.1.93.xip.io"
     }
   ],
   "labels": {
