@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  *
  * @author gnoxy <dev@gnoxy.com>
  */
-@ApplicationPath("rest") // the 'rest' address is mapped to the REST services
+@ApplicationPath("/") 
 public class RestApp extends Application{ // a javax.ws.rs.core.Application must be extended
     
 }

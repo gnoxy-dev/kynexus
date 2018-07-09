@@ -1,1 +1,1 @@
-http://localhost:64080/kynexus/rest/services/
+http://localhost:64080/kynexus/
