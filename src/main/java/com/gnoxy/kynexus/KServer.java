@@ -22,7 +22,7 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider  // @Provider tells the server that this is a REST class
-@Path("/services") // define the path for this class: [server]/rest/services
+@Path("") // define the path for this class: [server]/rest/services
 public class KServer {
         
     @Path("getHostInfo")
