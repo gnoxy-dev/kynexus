@@ -24,11 +24,11 @@ import org.apache.commons.io.IOUtils;
  *
  * @author gnoxy <dev@gnoxy.com>
  */
-public class KServerIT {
+public class KGatewayIT {
     
     String urlBase;
     
-    public KServerIT() throws IOException {
+    public KGatewayIT() throws IOException {
         InputStream url = getClass().getClassLoader().getResourceAsStream("targetURL.txt");
         urlBase = IOUtils.toString(url).trim();
         System.out.println("Integration Test: urlBase: " + urlBase);
@@ -55,15 +55,15 @@ public class KServerIT {
      */
     @Test
     public void testGetHostInfoJSONList() {
-        System.out.println("Integration Test: getHostInfoJSONList");
+        System.out.println("Integration Test: gateway/getHostInfoJSONList");
         Client client = ClientBuilder.newClient();
-        List<JsonValue> hostInfoJSON = client.target(urlBase+"services/getHostInfo")
+        List<JsonValue> hostInfoJSON = client.target(urlBase+"gateway/getHostInfo")
                  .request()
                  .get(ArrayList.class);
-        String expResult = "hostname";
+        String expResult = "gateway-hostname";
         String rawResult = hostInfoJSON.toString();
         System.out.println("Raw Result: " + rawResult);
-        String result = rawResult.substring(2, 10);
+        String result = rawResult.substring(2, 18);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
