@@ -91,7 +91,7 @@
       "spec": {
         "ports": [
           {
-            "name": "8080-tcp",
+            "name": "8081-tcp",
             "protocol": "TCP",
             "port": 8080,
             "targetPort": 8080
@@ -148,19 +148,19 @@
       "name": "ApplicationTag",
       "displayName": "Application Tag",
       "description": "An OpenShift-friendly Application Version.",
-      "value": "1-3-10"
+      "value": "1-3-11"
     },
     {
       "name": "ApplicationVersion",
       "displayName": "Application Version",
       "description": "The version of the application.",
-      "value": "1.3.10"
+      "value": "1.3.11"
     },
     {
       "name": "RouteHostName",
       "displayName": "Route Host Name",
       "description": "The Host Name published by the Route.",
-      "value": "kserv-${ApplicationTag}.192.168.1.93.xip.io"
+      "value": "kserv-${ApplicationTag}.apps.verignos.com"
     }
   ],
   "labels": {
